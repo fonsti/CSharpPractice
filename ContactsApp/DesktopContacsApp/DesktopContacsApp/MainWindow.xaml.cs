@@ -1,17 +1,9 @@
-﻿using System;
+﻿using DesktopContacsApp.Classes;
+using SQLite;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using SQLite;
-using DesktopContacsApp.Classes;
 
 namespace DesktopContacsApp
 {
@@ -20,9 +12,13 @@ namespace DesktopContacsApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<Contact> contacts;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            contacts = new List<Contact>();
 
             ReadDatabase();
         }
@@ -40,9 +36,21 @@ namespace DesktopContacsApp
             using (SQLiteConnection connection = new SQLiteConnection(App.databasePath))
             {
                 connection.CreateTable<Contact>();
-                var contacts = connection.Table<Contact>().ToList();
-
+                contacts = (connection.Table<Contact>().ToList()).OrderBy(c => c.Name).ToList();
             }
+            if (contacts != null)
+            {
+                contactsListView.ItemsSource = contacts;
+            }
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox searchTextBox = sender as TextBox;
+
+            var filteredList = contacts.Where(c => c.Name.ToLower().Contains(searchTextBox.Text.ToLower())).ToList();
+
+            contactsListView.ItemsSource = filteredList;
         }
     }
 }
