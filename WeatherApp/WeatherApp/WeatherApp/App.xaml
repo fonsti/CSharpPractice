@@ -26,6 +26,14 @@
             </Style.Resources>
         </Style>
 
+        <Style TargetType="TextBox">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Style.Resources>
+        </Style>
+
         <Style TargetType="Button" x:Key="genericButton">
             <Style.Resources>
                 <Style TargetType="Border">
