@@ -16,10 +16,10 @@
     <Grid DataContext="{StaticResource vm}">
         <StackPanel Visibility="{Binding LoginVis}"
                     Margin="10">
-            <TextBlock Text="Username"/>
-            <TextBox Text="{Binding UserName, Mode=TwoWay}"/>
+            <TextBlock Text="Email"/>
+            <TextBox Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="Password"/>
-            <TextBox Text="{Binding Password, Mode=TwoWay}"/>
+            <TextBox Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Button Content="Login"
                     Command="{Binding MyLoginCommand}"
                     CommandParameter="{Binding MyUser, Mode=TwoWay}"
@@ -34,17 +34,18 @@
                 </i:Interaction.Triggers>
             </TextBlock>
         </StackPanel>
-        <StackPanel Visibility="{Binding RegisterVis}">
-            <TextBlock Text="Username"/>
-            <TextBox Text="{Binding UserName, Mode=TwoWay}"/>
+        <StackPanel Visibility="{Binding RegisterVis}"
+                    Margin="10">
+            <TextBlock Text="Email"/>
+            <TextBox Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="Name"/>
-            <TextBox Text="{Binding MyUser.Name, Mode=TwoWay}"/>
+            <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="Last Name"/>
-            <TextBox Text="{Binding MyUser.Lastname, Mode=TwoWay}"/>
+            <TextBox Text="{Binding Lastname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="Password"/>
-            <TextBox Text="{Binding Password, Mode=TwoWay}"/>
+            <TextBox Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="Confirm Password"/>
-            <TextBox Text="{Binding MyUser.ConfirmPassword, Mode=TwoWay}"/>
+            <TextBox Text="{Binding ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Button Command="{Binding MyRegistercommand}"
                     CommandParameter="{Binding MyUser}"
                     Content="Register"

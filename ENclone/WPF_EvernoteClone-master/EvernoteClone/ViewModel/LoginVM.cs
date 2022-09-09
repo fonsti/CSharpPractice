@@ -1,5 +1,6 @@
 ﻿using EvernoteClone.Model;
 using EvernoteClone.ViewModel.Commands;
+using EvernoteClone.ViewModel.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -51,9 +52,52 @@ namespace EvernoteClone.ViewModel
                 MyUser = new User
                 {
                     Username = userName,
-                    Password = this.Password
+                    Password = this.Password,
+                    ConfirmPassword = this.ConfirmPassword,
+                    Name = this.Name,
+                    Lastname = this.LastName
                 };
                 OnPropertyChanged("UserName");
+            }
+        }
+
+        private string name;
+
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                MyUser = new User
+                {
+                    Username = this.UserName,
+                    Password = this.Password,
+                    ConfirmPassword = this.ConfirmPassword,
+                    Name = name,
+                    Lastname = this.LastName
+                };
+                OnPropertyChanged("Name");
+            }
+        }
+
+        private string lastName;
+
+        public string LastName
+        {
+            get { return lastName; }
+            set
+            {
+                lastName = value;
+                MyUser = new User
+                {
+                    Username = this.UserName,
+                    Password = this.Password,
+                    ConfirmPassword = this.ConfirmPassword,
+                    Name = this.Name,
+                    Lastname = lastName
+                };
+                OnPropertyChanged("LastName");
             }
         }
 
@@ -66,12 +110,34 @@ namespace EvernoteClone.ViewModel
                 MyUser = new User
                 {
                     Username = this.UserName,
-                    Password = this.Password
+                    Password = password,
+                    ConfirmPassword = this.ConfirmPassword,
+                    Name = this.Name,
+                    Lastname = this.LastName
                 };
                 OnPropertyChanged("Password");
             }
         }
 
+        private string confirmPassword;
+
+        public string ConfirmPassword
+        {
+            get { return confirmPassword; }
+            set
+            {
+                confirmPassword = value;
+                MyUser = new User
+                {
+                    Username = this.UserName,
+                    Password = this.Password,
+                    ConfirmPassword = confirmPassword,
+                    Name = this.Name,
+                    Lastname = this.LastName
+                };
+                OnPropertyChanged("ConfirmPassword");
+            }
+        }
 
         public RegisterCommand MyRegistercommand { get; set; }
 
@@ -112,9 +178,9 @@ namespace EvernoteClone.ViewModel
             // TODO: Login
         }
 
-        public void Register()
+        public async void Register()
         {
-            // TODO: register
+            await FirebaseAuthHelper.Register(MyUser);
         }
 
         private void OnPropertyChanged(string propertyName)
