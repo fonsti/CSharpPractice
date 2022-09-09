@@ -87,7 +87,7 @@ namespace EvernoteClone.ViewModel
             GetNotebooks();
         }
 
-        public void CreateNotebook()
+        public async void CreateNotebook()
         {
             Notebook newNotebook = new Notebook()
             {
@@ -95,12 +95,12 @@ namespace EvernoteClone.ViewModel
                 UserId = App.UserId
             };
 
-            DataBaseHelper.Insert(newNotebook);
+            await DataBaseHelper.Insert(newNotebook);
 
             GetNotebooks();
         }
 
-        public void CreateNote(int notebookId)
+        public async void CreateNote(string notebookId)
         {
             Note newNote = new Note()
             {
@@ -110,14 +110,14 @@ namespace EvernoteClone.ViewModel
                 Title = $"New Note {DateTime.Now.ToString()}"
             };
 
-            DataBaseHelper.Insert(newNote);
+            await DataBaseHelper.Insert(newNote);
 
             GetNotes();
         }
 
-        public void GetNotebooks()
+        public async void GetNotebooks()
         {
-            var notebooks = DataBaseHelper.Read<Notebook>().Where(n => n.UserId == App.UserId).ToList();
+            var notebooks = (await DataBaseHelper.Read<Notebook>()).Where(n => n.UserId == App.UserId).ToList();
 
             Notebooks.Clear();
             foreach (var notebook in notebooks)
@@ -126,11 +126,11 @@ namespace EvernoteClone.ViewModel
             }
         }
 
-        private void GetNotes()
+        private async void GetNotes()
         {
             if (SelectedNotebook != null)
             {
-                var notes = DataBaseHelper.Read<Note>().Where(n => n.NotebookId == SelectedNotebook.Id).ToList();
+                var notes = (await DataBaseHelper.Read<Note>()).Where(n => n.NotebookId == SelectedNotebook.Id).ToList();
 
                 Notes.Clear();
                 foreach (var note in notes)
@@ -150,10 +150,10 @@ namespace EvernoteClone.ViewModel
             EditNameIsVisible = Visibility.Visible;
         }
 
-        public void StopEditing(Notebook notebook)
+        public async void StopEditing(Notebook notebook)
         {
             EditNameIsVisible = Visibility.Collapsed;
-            DataBaseHelper.Update(notebook);
+            await DataBaseHelper.Update(notebook);
             GetNotebooks();
         }
     }
